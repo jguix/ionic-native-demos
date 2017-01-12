@@ -28,8 +28,6 @@ export class FileOpenerPage {
   }
 
   openLocalPDF(cachedir?: string) {
-    // const filePath = 'cdvfile://localhost/assets/doc/pdf-sample.pdf';
-    // const filePath = 'cdvfile://localhost/assets/www/doc/pdf-sample.pdf';
     const filePath = 'cdvfile://localhost/assets/www/assets/doc/pdf-sample.pdf';
     this.presentLoading('Opening local PDF... \nIf you don\'t see a PDF, \nsomething went wrong');
     this.openPDF(filePath, cachedir);
