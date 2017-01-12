@@ -1,14 +1,16 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { AboutPage, ContactPage, FilePage, TabsPage } from '../pages';
+import { ContactPage, FilePage, FileopenerPage, PhotoviewerPage, PluginsPage, TabsPage } from '../pages';
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
     ContactPage,
+    FileopenerPage,
     FilePage,
+    PhotoviewerPage,
+    PluginsPage,
     TabsPage
   ],
   imports: [
@@ -17,9 +19,11 @@ import { AboutPage, ContactPage, FilePage, TabsPage } from '../pages';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
     ContactPage,
+    FileopenerPage,
     FilePage,
+    PhotoviewerPage,
+    PluginsPage,
     TabsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
