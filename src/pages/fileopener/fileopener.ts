@@ -21,91 +21,67 @@ export class FileOpenerPage {
   ionViewDidLoad() {
   }
 
-  openRemotePDF(filePath: string, cachedir?: string) {
+  openRemotePDF(cachedir?: string) {
+    const filePath = 'http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf';
     this.presentLoading('Opening remote PDF... \nIf you don\'t see a PDF, \nsomething went wrong');
+    this.openPDF(filePath, cachedir);
+  }
 
-    if (this.platform.is('cordova')) {
+  openLocalPDF(cachedir?: string) {
+    // const filePath = 'cdvfile://localhost/assets/doc/pdf-sample.pdf';
+    // const filePath = 'cdvfile://localhost/assets/www/doc/pdf-sample.pdf';
+    const filePath = 'cdvfile://localhost/assets/www/assets/doc/pdf-sample.pdf';
+    this.presentLoading('Opening local PDF... \nIf you don\'t see a PDF, \nsomething went wrong');
+    this.openPDF(filePath, cachedir);
+  }
 
-      Observable.of(cachedir)
-        .flatMap(cachedir => {
-          console.log('Cache dir: ' + cachedir);
+  private openPDF(filePath: string, cachedir?: string) {
+    Observable.of(cachedir)
+      .flatMap(cachedir => {
+        console.log('Cache dir: ' + cachedir);
 
-          if (cachedir != null) {
-            switch (cachedir) {
-              case 'external': cachedir = cordova.file.externalCacheDirectory; break;
-              default: cachedir = cordova.file.cacheDirectory;
-            }
-            // Return cachedPath
-            return this.cacheFile(filePath, cachedir);
-          } else {
-            // Return original filePath
-            return Observable.of(filePath);
+        if (cachedir != null) {
+          switch (cachedir) {
+            case 'external': cachedir = cordova.file.externalCacheDirectory; break;
+            default: cachedir = cordova.file.cacheDirectory;
           }
-        })
-        .map( (filePath) => {
-          console.log('Final path: ' + filePath);
-
-          FileOpener.open(filePath, 'application/pdf')
-            .then((res) => {
-              this.log('File opened successfully');
-            })
-            .catch((err) => {
-              this.log('Error status: ' + err.status + ' - Error message: ' + err.message);
-            });
-          // return this.openPDF(filePath);
-        })
-        .subscribe();
-
-      // if (cachedir) {
-      //
-      // } else {
-      //
-      // }
-      // this.cacheFile(filePath)
-      //   .map( (cachedPath) => {
-      //     FileOpener.open(cachedPath, 'application/pdf')
-      //       .then((res) => {
-      //         this.log('File opened successfully');
-      //       })
-      //       .catch((err) => {
-      //         this.log('Error status: ' + err.status + ' - Error message: ' + err.message);
-      //       });
-      //   });
-    } else {
-      window.open(filePath, '_blank');
-    }
+          // Return cachedPath
+          return this.cacheFile(filePath, cachedir);
+        } else {
+          // Return original filePath
+          return Observable.of(filePath);
+        }
+      })
+      .map( (filePath) => {
+        console.log('Final path: ' + filePath);
+        return this.openFile(filePath, 'application/pdf');
+      })
+      .catch(error => Observable.of(`Something went wrong, check your network connection. Error: ${error}`))
+      .subscribe();
   }
 
-  openRemotePDF2(filePath: string) {
-    this.presentLoading('Opening remote PDF... \nIf you don\'t see a PDF, \nsomething went wrong');
-
-    if (this.platform.is('cordova')) {
-      this.cacheFile(filePath, cordova.file.externalCacheDirectory)
-        .map( (cachedPath) => {
-          FileOpener.open(cachedPath, 'application/pdf')
-            .then((res) => {
-              this.log('File opened successfully');
-            })
-            .catch((err) => {
-              this.log('Error status: ' + err.status + ' - Error message: ' + err.message);
-            });
-        })
-        .subscribe();
-
-    } else {
-      window.open(filePath, '_blank');
-    }
+  /**
+   * Open file with FileOpen plugin
+   * Converts from promise to observable, for convenience
+   * @param filePath
+   * @returns {Observable<T>}
+   */
+  private openFile(filePath: string, mimetype: string = 'application/pdf'): Observable<void> {
+    return Observable.fromPromise(FileOpener.open(filePath, mimetype))
+      .do( () => {
+        this.log('File opened successfully');
+      }, (err) => {
+        this.log('Error status: ' + err.status + ' - Error message: ' + err.message);
+      });
   }
-  //
-  // private openPDF(filePath: string): Observable<void> {
-  //   return Observable.fromPromise(FileOpener.open(filePath, 'application/pdf'))
-  //     .do( () => {
-  //       this.log('File opened successfully');
-  //     }, (err) => {
-  //       this.log('Error status: ' + err.status + ' - Error message: ' + err.message);
-  //     });
-  // }
 
+  /**
+   * Create copy of a file to some cache directory
+   * It is used because FileOpener can't work with some internal directories or external paths
+   * @param filePath
+   * @param fs
+   * @returns {Observable<R>}
+   */
   private cacheFile(filePath: string, fs: string = cordova.file.cacheDirectory): Observable<string> {
     const fileTransfer = new Transfer();
     console.log('Caching file: ' + filePath + ' at fs: ' + fs);
@@ -115,17 +91,24 @@ export class FileOpenerPage {
         const cachedPath = entry.toURL();
         console.log('download complete: ' + cachedPath);
         return cachedPath;
-      }, (error) => {
-        console.log('Error: ' + error.message);
       });
-
   }
 
+  /**
+   * Log to console and present toast message
+   * @param message
+   * @param duration
+   */
   private log(message: string, duration: string = 'short') {
     console.log(message);
     Toast.show(message, duration, 'center').subscribe();
   }
 
+  /**
+   * Just a loading control with a warning message
+   * @param message
+   * @param duration
+   */
   private presentLoading(message: string, duration: string = 'short') {
     let time: number = 1000;
     switch (duration) {

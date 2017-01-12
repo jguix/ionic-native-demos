@@ -7,8 +7,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-list-header text-wrap>This plugin will open a file on your device file system with its default application.</ion-list-header>
-  <ion-item (click)="openRemotePDF('http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf')">Open Remote PDF, not cached</ion-item>
-  <ion-item (click)="openRemotePDF('http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf', 'internal')">Open Remote PDF, using internal cache</ion-item>
-  <ion-item (click)="openRemotePDF2('http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf')">Open Remote PDF, using external cache</ion-item>
+  <div padding text-wrap>
+    <p>This plugin will open a file from your device file system with its default application.</p>
+    <p>Internal cache should not work in android, since it belongs to the app sandbox.</p>
+  </div>
+  <ion-list>
+    <ion-list-header>Open remote files</ion-list-header>
+    <ion-item (click)="openRemotePDF()">Open Remote PDF, not cached</ion-item>
+    <ion-item (click)="openRemotePDF('internal')">Open Remote PDF, using internal cache</ion-item>
+    <ion-item (click)="openRemotePDF('external')">Open Remote PDF, using external cache</ion-item>
+
+    <ion-list-header>Open local files</ion-list-header>
+    <ion-item (click)="openLocalPDF()">Open local PDF, not cached</ion-item>
+    <ion-item (click)="openLocalPDF('internal')">Open local PDF, using internal cache</ion-item>
+    <ion-item (click)="openLocalPDF('external')">Open local PDF, using external cache</ion-item>
+  </ion-list>
 </ion-content>
