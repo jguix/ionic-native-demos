@@ -1,6 +1,6 @@
-export { FileopenerPage } from './fileopener/fileopener';
-export { PhotoviewerPage } from './photoviewer/photoviewer';
+export { FileOpenerPage } from './fileopener/fileopener';
+export { PhotoViewerPage } from './photoviewer/photoviewer';
 export { PluginsPage } from './plugins/plugins';
 export { ContactPage } from './contact/contact';
-export { FilePage } from './file/file';
+export { PathsPage } from './paths/paths';
 export { TabsPage } from './tabs/tabs';

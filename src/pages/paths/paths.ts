@@ -5,10 +5,10 @@ import { File, Entry } from 'ionic-native';
 declare var cordova: any;
 
 @Component({
-  selector: 'page-file',
-  templateUrl: 'file.html'
+  selector: 'page-paths',
+  templateUrl: 'paths.html'
 })
-export class FilePage {
+export class PathsPage {
 
   paths: any;
   items: any = [];

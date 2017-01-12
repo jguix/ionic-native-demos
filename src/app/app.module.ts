@@ -1,15 +1,22 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { ContactPage, FilePage, FileopenerPage, PhotoviewerPage, PluginsPage, TabsPage } from '../pages';
+import {
+  ContactPage,
+  PathsPage,
+  FileOpenerPage,
+  PhotoViewerPage,
+  PluginsPage,
+  TabsPage
+} from '../pages';
 
 @NgModule({
   declarations: [
     MyApp,
     ContactPage,
-    FileopenerPage,
-    FilePage,
-    PhotoviewerPage,
+    FileOpenerPage,
+    PathsPage,
+    PhotoViewerPage,
     PluginsPage,
     TabsPage
   ],
@@ -20,9 +27,9 @@ import { ContactPage, FilePage, FileopenerPage, PhotoviewerPage, PluginsPage, Ta
   entryComponents: [
     MyApp,
     ContactPage,
-    FileopenerPage,
-    FilePage,
-    PhotoviewerPage,
+    FileOpenerPage,
+    PathsPage,
+    PhotoViewerPage,
     PluginsPage,
     TabsPage
   ],

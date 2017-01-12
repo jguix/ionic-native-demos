@@ -38,4 +38,6 @@
     <plugin name="cordova-plugin-file" spec="~4.3.1" />
     <plugin name="cordova-plugin-file-opener2" spec="~2.0.3" />
     <allow-navigation href="http://192.168.56.1:8100" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.6.1" />
+    <plugin name="cordova-plugin-x-toast" spec="~2.5.2" />
 </widget>
